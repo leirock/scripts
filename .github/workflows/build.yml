@@ -38,6 +38,7 @@ jobs:
         node -v
         yarn install
         yarn build
+        mkdir dist
         cp -r photoslist.json dist/photoslist.json
 
     - name: Deploy photos
