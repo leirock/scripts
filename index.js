@@ -1,8 +1,8 @@
 "use strict";
 const fs = require("fs");
 const sizeOf = require('image-size');
-const path = "photos";
-const output = "photoslist.json";
+const path = "photos"; // source folder
+const output = "photoslist.json"; // output of photo list
 var dimensions;
 fs.readdir(path, function (err, files) {
     if (err) {
@@ -20,7 +20,7 @@ fs.readdir(path, function (err, files) {
             }
             if (stats.isFile()) {
                 dimensions = sizeOf(path + "/" + files[index]);
-                //console.log(dimensions.width, dimensions.height);
+                console.log(dimensions.width, dimensions.height);
                 arr.push(dimensions.width + '.' + dimensions.height + ' ' + files[index]);
             }
             iterator(index + 1);
