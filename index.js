@@ -1,29 +1,44 @@
 "use strict";
-const fs = require("fs");
+const { mkdirSync, readdir, writeFileSync, stat } = require('fs');
 const sizeOf = require('image-size');
-const path = "photos"; // source folder
-const output = "photoslist.json"; // output of photo list
+
 var dimensions;
-fs.readdir(path, function (err, files) {
-    if (err) {
-        return;
+
+const folders = ['guangzhou', 'hongkong', 'taiwan'];
+
+for(var i in folders) {
+    try {
+        mkdirSync('dist/' + folders[i], {recursive: true});
+    } catch ({ code }) {
+        if (code !== 'EEXIST') throw code;
     }
-    let arr = [];
-    (function iterator(index) {
-        if (index == files.length) {
-            fs.writeFileSync(output, JSON.stringify(arr, null, "\t"));
+
+    const path = 'photos/' + folders[i];
+    const output = 'dist/' + folders[i] + '/photolist.json';
+
+    readdir(path, function (err, files) {
+        if (err) {
             return;
         }
-        fs.stat(path + "/" + files[index], function (err, stats) {
-            if (err) {
+        let arr = [];
+        (function iterator(index) {
+            if (index == files.length) {
+                writeFileSync(output, JSON.stringify(arr));
+                //writeFileSync(output, JSON.stringify(arr, null, "\t"));
                 return;
             }
-            if (stats.isFile()) {
-                dimensions = sizeOf(path + "/" + files[index]);
-                console.log(dimensions.width, dimensions.height);
-                arr.push(dimensions.width + '.' + dimensions.height + ' ' + files[index]);
-            }
-            iterator(index + 1);
-        })
-    }(0));
-});
+            stat(path + "/" + files[index], function (err, stats) {
+                if (err) {
+                    return;
+                }
+                if (stats.isFile()) {
+                    dimensions = sizeOf(path + "/" + files[index]);
+                    console.log(dimensions.width, dimensions.height);
+                    arr.push(dimensions.width + '.' + dimensions.height + ' ' + files[index]);
+                }
+                iterator(index + 1);
+            })
+        }(0));
+    });
+
+}

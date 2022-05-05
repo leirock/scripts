@@ -1,0 +1,5 @@
+---
+title: Guangzhou
+---
+
+{% album guangzhou %}

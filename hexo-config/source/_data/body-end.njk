@@ -1,0 +1,74 @@
+{### 相册 ###}
+<script src="https://cdn.jsdelivr.net/npm/minigrid@3.1.1/dist/minigrid.min.js" integrity="sha256-oexHY81/KuGogn0rnUzhYExxPnIyzC4ErClSXE+jFa8=" crossorigin="anonymous"></script>
+<script{{ pjax }} type="text/javascript">
+  var $album = $(".album")[0];
+  if($album) {
+    // 相册列表 JSON 数据
+    var imgDataPath = $album.getAttribute('json-src');
+    // 照片存储路径
+    var imgPath = $album.getAttribute('photo-src');
+    // 最多显示数量
+    var imgMaxNum = 50;
+    // 获取窗口大小以决定图片宽度
+    var windowWidth = window.innerWidth
+    || document.documentElement.clientWidth
+    || document.body.clientWidth;
+    if (windowWidth < 768) {
+        var imageWidth = 145; // 移动端图片宽度
+    } else {
+        var imageWidth = 235;
+    }
+
+    // 腾讯云 COS 自定义样式格式
+    //var imgStyle = '!' + imageWidth + 'x';
+    var imgStyle = '';
+
+    // 生成相册
+    var LinkDataPath = imgDataPath;
+    photo = {
+        page: 1,
+        offset: imgMaxNum,
+        init: function () {
+            var that = this;
+            $.getJSON(LinkDataPath, function (data) {
+                that.render(that.page, data);
+            });
+        },
+        render: function (page, data) {
+            var begin = (page - 1) * this.offset;
+            var end = page * this.offset;
+            if (begin >= data.length) return;
+            var imgNameWithPattern, imgName, imageSize, imageX, imageY, li = "";
+            for (var i = begin; i < end && i < data.length; i++) {
+                imgNameWithPattern = data[i].split(' ')[1];
+                imgName = imgNameWithPattern.split('.')[0]
+                imageSize = data[i].split(' ')[0];
+                imageX = imageSize.split('.')[0];
+                imageY = imageSize.split('.')[1];
+                li += '<div class="card" style="width:' + imageWidth + 'px" >'
+                li += '<div class="album-photo" style="height:'+ imageWidth * imageY / imageX + 'px">'
+                li += '<a class="fancybox fancybox.image" href="' + imgPath + imgNameWithPattern + '" itemscope="" itemtype="http://schema.org/ImageObject" itemprop="url" data-fancybox="group" rel="group" data-caption="' + imgName + '" title="' +  imgName + '">'
+                li += '<img data-src="' + imgPath + imgNameWithPattern + imgStyle + '" src="' + imgPath + imgNameWithPattern + imgStyle + '" alt="' +  imgName + '" data-loaded="true">'
+                li += '</a>'
+                li += '</div>'
+                li += '</div>'
+            }
+            $(".album").append(li);
+            this.minigrid();
+        },
+
+        minigrid: function() {
+          var grid = new Minigrid({
+              container: '.album',
+              item: '.card',
+              gutter: 12
+          });
+          grid.mount();
+          $(window).resize(function() {
+              grid.mount();
+          });
+        }
+    }
+    photo.init();
+  }
+</script>

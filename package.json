@@ -1,17 +1,22 @@
 {
-  "name": "photogallery",
-  "version": "1.0.0",
-  "description": "Photo gallery for Hexo NexT blog",
+  "name": "hexo-album",
+  "version": "2.0.0",
+  "description": "Album for Hexo NexT",
+  "main": "index.js",
   "scripts": {
     "build": "node index.js"
   },
-  "private": true,
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/lei2rock/PhotoGallery.git"
+    "url": "git+https://github.com/leirock/HexoAlbum.git"
   },
-  "license": "ISC",
+  "author": "leirock",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/leirock/HexoAlbum/issues"
+  },
+  "homepage": "https://github.com/leirock/HexoAlbum#readme",
   "dependencies": {
-    "image-size": "^1.0.0"
+    "image-size": "^1.0.1"
   }
 }
