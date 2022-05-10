@@ -23,22 +23,24 @@ for(var i in subAlbum) {
             return;
         }
         let arr = [];
-        (function iterator(index) {
-            if (index == files.length) {
+        (function iterator(j) {
+            if (j == files.length) {
+                // minify JSON
                 writeFileSync(output, JSON.stringify(arr));
+                // not minify JSON
                 //writeFileSync(output, JSON.stringify(arr, null, "\t"));
                 return;
             }
-            stat(subAlbumSrc + files[index], function (err, stats) {
+            stat(subAlbumSrc + files[j], function (err, stats) {
                 if (err) {
                     return;
                 }
                 if (stats.isFile()) {
-                    dimensions = sizeOf(subAlbumSrc + files[index]);
-                    console.log(dimensions.width, dimensions.height);
-                    arr.push(dimensions.width + '.' + dimensions.height + ' ' + files[index]);
+                    dimensions = sizeOf(subAlbumSrc + files[j]);
+                    console.log(dimensions.width, dimensions.height, files[j]);
+                    arr.push(dimensions.width + '.' + dimensions.height + ' ' + files[j]);
                 }
-                iterator(index + 1);
+                iterator(j + 1);
             })
         }(0));
     });

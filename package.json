@@ -4,7 +4,8 @@
   "description": "Album for Hexo NexT",
   "main": "index.js",
   "scripts": {
-    "build": "node index.js"
+    "build": "node index.js",
+    "build2": "node index2.js"
   },
   "repository": {
     "type": "git",
