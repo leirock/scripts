@@ -1,0 +1,6 @@
+# COS 存储桶自定义域名（带 https 协议）
+cos_domain: https://cdn.example.com
+
+# 自定义页面在 /source/ 下的文件夹名
+custom_page_path:
+  album: album

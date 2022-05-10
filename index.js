@@ -1,22 +1,24 @@
 "use strict";
-const { mkdirSync, readdir, writeFileSync, stat } = require('fs');
+
 const sizeOf = require('image-size');
+const { mkdirSync, readdir, readdirSync, writeFileSync, stat } = require('fs');
 
 var dimensions;
+const photoSrc = './photos/';
+const photoDist = './dist/';
+const subAlbum = readdirSync(photoSrc);
 
-const folders = ['guangzhou', 'hongkong', 'taiwan'];
-
-for(var i in folders) {
+for(var i in subAlbum) {
+    const subAlbumSrc = photoSrc + subAlbum[i] + '/';
+    const subAlbumDist = photoDist + subAlbum[i] + '/';
+    const output = subAlbumDist + subAlbum[i] + '-list.json';
     try {
-        mkdirSync('dist/' + folders[i], {recursive: true});
+        mkdirSync(subAlbumDist, {recursive: true});
     } catch ({ code }) {
         if (code !== 'EEXIST') throw code;
     }
 
-    const path = 'photos/' + folders[i];
-    const output = 'dist/' + folders[i] + '/photolist.json';
-
-    readdir(path, function (err, files) {
+    readdir(subAlbumSrc, function (err, files) {
         if (err) {
             return;
         }
@@ -27,12 +29,12 @@ for(var i in folders) {
                 //writeFileSync(output, JSON.stringify(arr, null, "\t"));
                 return;
             }
-            stat(path + "/" + files[index], function (err, stats) {
+            stat(subAlbumSrc + files[index], function (err, stats) {
                 if (err) {
                     return;
                 }
                 if (stats.isFile()) {
-                    dimensions = sizeOf(path + "/" + files[index]);
+                    dimensions = sizeOf(subAlbumSrc + files[index]);
                     console.log(dimensions.width, dimensions.height);
                     arr.push(dimensions.width + '.' + dimensions.height + ' ' + files[index]);
                 }
@@ -40,5 +42,4 @@ for(var i in folders) {
             })
         }(0));
     });
-
 }
