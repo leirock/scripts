@@ -25,9 +25,7 @@ for(var i in subAlbum) {
         let arr = [];
         (function iterator(j) {
             if (j == files.length) {
-                // minify JSON
                 writeFileSync(output, JSON.stringify(arr));
-                // not minify JSON
                 //writeFileSync(output, JSON.stringify(arr, null, "\t"));
                 return;
             }

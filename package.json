@@ -4,8 +4,8 @@
   "description": "Album for Hexo NexT",
   "main": "index.js",
   "scripts": {
-    "build": "node index.js",
-    "build2": "node index2.js"
+    "build": "find . -name '*.DS_Store' -type f -delete && node index.js",
+    "build2": "find . -name '*.DS_Store' -type f -delete && node index2.js"
   },
   "repository": {
     "type": "git",
