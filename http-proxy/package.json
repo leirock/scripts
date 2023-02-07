@@ -1,0 +1,8 @@
+{
+  "name": "http-proxy",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "request": "^2.88.2"
+  }
+}

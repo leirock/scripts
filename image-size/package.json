@@ -7,16 +7,8 @@
     "build": "find . -name '*.DS_Store' -type f -delete && node index.js",
     "build2": "find . -name '*.DS_Store' -type f -delete && node index2.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/leirock/HexoAlbum.git"
-  },
   "author": "leirock",
   "license": "GPL-3.0-or-later",
-  "bugs": {
-    "url": "https://github.com/leirock/HexoAlbum/issues"
-  },
-  "homepage": "https://github.com/leirock/HexoAlbum#readme",
   "dependencies": {
     "image-size": "^1.0.1"
   }
